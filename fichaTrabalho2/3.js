@@ -81,6 +81,7 @@
 // devolveVogais(str);
 
 console.log("--------");
+
 function contaVogais(frase) {
   let vogais = "aeiouAEIOUáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõÃÕ";
   let contador = 0;
