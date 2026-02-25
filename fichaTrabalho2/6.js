@@ -23,3 +23,23 @@ desenharretangulo(6, 5);
 // menor que altura incrementamos a variavel, depois criamos outra variavel para guardar a linha,
 // deixamos assim um string vazio, depois fazemos outro ciclo para o comprimento, e a cada ciclo acrescentamos ~
 // um asterisco a linha, variavel menor que comprimento, incrementamos a variavel, depois de sair do ciclo do comprimento, imprimimos a linha, e assim por diante.
+
+function retangulo(largura, altura) {
+    for (let i = 0; i < altura; i++) {
+        linha ="x".repeat(largura);
+        console.log(linha);
+    }
+}
+retangulo(5, 3);
+
+console.log("--------verdadeira resposta-------");
+function rtgl(largura, altura) {
+
+    for (let i = 0; i < altura; i++) {
+        linha = "*".repeat(largura);
+        console.log(linha);
+
+    }
+    console.log(linha);
+}
+rtgl(5, 3);
