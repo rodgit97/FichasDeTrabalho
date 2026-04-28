@@ -271,7 +271,10 @@
 const express = require('express');
 const Car = require('./models/Car');
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 const sequelize = require('./config/database');
+const swaggerAutogen = require('swagger-autogen');
 
 sequelize.sync({ force: true }) //force:true - obriga a eliminar e recriar a base de dados
     .then(() =>{

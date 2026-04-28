@@ -41,52 +41,6 @@
 
 // // module.exports = Car; // exporta o modelo "Car" para que possa ser usado em outras partes da aplicação.
 
-// const { DataTypes } = require("sequelize");
-// const sequelize = require("../config/database");
-
-// const Car = sequelize.define(
-//   "Car",
-//   {
-//     Brand: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//     },
-//     Model: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//     },
-//     LicensePlate: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//       unique: true,
-//     },
-//     Color: {
-//       type: DataTypes.STRING,
-//     },
-//     Year: {
-//       type: DataTypes.INTEGER,
-//     },
-//     Power: {
-//       type: DataTypes.INTEGER,
-//     },
-//     Displacement: {
-//       type: DataTypes.INTEGER, // Cilindrada costuma ser inteiro (ex: 1600)
-//     },
-//   },
-//   {
-//     tableName: "cars",
-//     timestamps: true,
-//   },
-// );
-
-// Car.validarMatricula = function (matricula) {
-//   const regex =
-//     /^([A-Z]{2}-\d{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-\d{2}|[A-Z]{2}-\d{2}-[A-Z]{2})$/i;
-//   return regex.test(matricula);
-// };
-
-// module.exports = Car;
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
@@ -116,7 +70,7 @@ const Car = sequelize.define(
       type: DataTypes.INTEGER,
     },
     Displacement: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER, // Cilindrada costuma ser inteiro (ex: 1600)
     },
   },
   {
@@ -132,3 +86,50 @@ Car.validarMatricula = function (matricula) {
 };
 
 module.exports = Car;
+
+// //-------------------------------------------------
+// const { DataTypes } = require("sequelize");
+// const sequelize = require("../config/database");
+
+// const Car = sequelize.define(
+//   "Car",
+//   {
+//     Brand: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//     },
+//     Model: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//     },
+//     LicensePlate: {
+//       type: DataTypes.STRING,
+//       allowNull: false,
+//       unique: true,
+//     },
+//     Color: {
+//       type: DataTypes.STRING,
+//     },
+//     Year: {
+//       type: DataTypes.INTEGER,
+//     },
+//     Power: {
+//       type: DataTypes.INTEGER,
+//     },
+//     Displacement: {
+//       type: DataTypes.FLOAT,
+//     },
+//   },
+//   {
+//     tableName: "cars",
+//     timestamps: true,
+//   },
+// );
+
+// Car.validarMatricula = function (matricula) {
+//   const regex =
+//     /^([A-Z]{2}-\d{2}-\d{2}|\d{2}-\d{2}-[A-Z]{2}|\d{2}-[A-Z]{2}-\d{2}|[A-Z]{2}-\d{2}-[A-Z]{2})$/i;
+//   return regex.test(matricula);
+// };
+
+// module.exports = Car;
