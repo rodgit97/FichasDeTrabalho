@@ -1,94 +1,263 @@
-// const express = require('express');
-// const mysql = require('mysql2');
+// // const express = require('express');
+// // const mysql = require('mysql2');
 
+// // const app = express();
+// // const port = 3000;
+
+// // // dados de ligação à BD
+// // let pool = mysql.createPool({
+// //     connectionLimit: 10,
+// //     host: 'localhost',              //127.0.0.1
+// //     user: 'root',
+// //     password: 'root',
+// //     database: 'Aula7.1'
+// // })
+
+// // app.use(express.json());    //middleware para ler json do body
+
+
+// // // criar endpoints
+// // // definir endppint com PATH, e CALLBACK (req, res) 
+// // // req - request: dados enviados pelo cliente
+// // // res - resposta: dados que devolvermos ao cliente
+// // app.get('/users', (req,res) =>{
+// //     // tratam o endpoint
+// //     // res.status()
+// //     // res.redirect()
+// //     // res.download
+// //     pool.query('SELECT * FROM users',(err,result)=>{
+// //        if(err){
+// //             return res.status(500).end(error);
+// //        }
+// //         res.json(result);
+// //     });
+// // });
+
+// // app.listen(port,() => {
+// //     console.log("Server Started");
+// // });
+// // const express = require("express");
+
+// // const app = express();
+// // const port = 2000;
+
+
+// // app.listen(port, () => {
+// //   console.log("servidor");
+// // });
+
+// // 1.a.
+// const express = require('express');
+// // 1.b. - no terminal: 
+// //          npm init -y
+// //          npm install express
+// // 1.c. - no terminal:
+// //          npm install mysql2
+// // no mysql cli / wrokbench / phpMyAdmin
+// // 2. CREATE DATABASE Aula7
+// // 2.a. CREATE TABLE `users` (
+// //            `id` INT NOT NULL AUTO_INCREMENT,
+// //            `Firstname` VARCHAR(100) NOT NULL,
+// //            `Lastname` VARCHAR(100) NOT NULL,
+// //            `Profession` VARCHAR(100) NOT NULL,
+// //            `Age` INT NOT NULL,
+// //            PRIMARY KEY (`id`)
+// //        );
+// // 2.b.
+// const host = 'localhost';
+// const username = 'root';
+// const password = '';
+// const database = 'Aula7';
+// // 2.c. INSERT INTO `users` (`Firstname`, `Lastname`, `Profession`, `Age`) VALUES
+// //          ('João', 'Silva', 'Engenheiro', 28),
+// //          ('Maria', 'Santos', 'Médica', 35),
+// //          ('Pedro', 'Oliveira', 'Professor', 42),
+// //          ('Ana', 'Costa', 'Advogada', 31),
+// //          ('Rui', 'Ferreira', 'Designer', 26);
+// // 3.
 // const app = express();
 // const port = 3000;
 
-// // dados de ligação à BD
-// let pool = mysql.createPool({
-//     connectionLimit: 10,
-//     host: 'localhost',              //127.0.0.1
-//     user: 'root',
-//     password: 'root',
-//     database: 'Aula7.1'
+// //8
+// //8.a
+// const swaggerUi = require('swagger-ui-express');
+
+// // 8.b
+// // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger_output.json')));
+// const swaggerDocs = require('./swagger_output.json');
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
+// // 4.
+// const mysql = require('mysql2');
+
+// const connection = mysql.createConnection({
+//     host: host,
+//     user: username,
+//     password: password,
+//     database: database,
+// });
+// // 4.a
+// connection.connect((err)=>{
+//     if (err) {
+//         console.error('Erro ao conectar ao MySQL:', err.message);
+//         return;
+//     }
+//     console.log('connection established to MySql');
+// });
+
+// // middleware
+// app.use(express.json()); // middleware para fazer parse do body JSON
+
+// // rotas
+// // 4.b.i
+// app.get('/users',(req,res)=>{
+//     const query = "SELECT * FROM users";
+//     connection.query(query,(err,rows)=>{
+//         if (err) {
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+//         res.send(rows);
+
+//     });
 // })
 
-// app.use(express.json());    //middleware para ler json do body
+// // 4.b.ii
+// app.post('/users',(req,res)=>{
 
+//     console.log(req.body);
 
-// // criar endpoints
-// // definir endppint com PATH, e CALLBACK (req, res) 
-// // req - request: dados enviados pelo cliente
-// // res - resposta: dados que devolvermos ao cliente
-// app.get('/users', (req,res) =>{
-//     // tratam o endpoint
-//     // res.status()
-//     // res.redirect()
-//     // res.download
-//     pool.query('SELECT * FROM users',(err,result)=>{
-//        if(err){
-//             return res.status(500).end(error);
-//        }
-//         res.json(result);
+//     const { Firstname, Lastname, Profession, Age } = req.body;
+//     // const Firstname = req.body.Firstname;
+//     const query = "INSERT INTO users "
+//         + "(Firstname, Lastname, Profession, Age) "
+//         + "VALUES (?, ?, ?, ?)";
+//     connection.query(query,[Firstname, Lastname, Profession, Age],
+//         (err,result)=>{
+//         if (err) {
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+//         res.json({ linhasAfetadas: result.affectedRows });
+//     })
+// });
+
+// // 4.b.iii
+// app.delete('/users',(req,res) => {
+//     const { id } = req.body;
+
+//     const query = "DELETE FROM users WHERE id = ?";
+
+//     connection.query(query,[id],(err, result) =>{
+//         if (err) {
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+//         res.json({ linhasAfetadas: result.affectedRows });
 //     });
 // });
 
-// app.listen(port,() => {
+// // 4.b.iv
+// app.delete('/users/:id',(req,res) => {
+//     const id  = req.params.id;
+
+//     const query = "DELETE FROM users WHERE id = ?";
+
+//     connection.query(query,[id],(err, result) =>{
+//         if (err) {
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+//         res.json({ linhasAfetadas: result.affectedRows });
+//     });
+// });
+
+// // 4.b.v
+// app.get('/users/:id',(req,res) => {
+//     const id = req.params.id;   //buscar id aos parametros
+//     const query = "SELECT * FROM users WHERE id = ?";   //criar query
+
+//     connection.query(query,[id],(err, result) =>{   //establecer ligação 
+//         if (err) {  
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+
+//         // caso não exista
+//         if(!result.length){
+//             return res.status(404).end("user não encontrado");
+//         }
+
+//         res.json({ resultado: result[0]});
+//     });
+// });
+
+// // 4.b.vi
+// app.get('/users/:age/:profession',(req,res) => {
+//     const { age, profession } = req.params;
+//     const query = "SELECT * FROM users WHERE Age = ? AND Profession = ?";  
+
+//     connection.query(query,[age, profession],(err, result) =>{
+//         if (err) {  
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+
+//         // caso não exista
+//         if(!result.length){
+//             return res.status(404).end("não existem utilizadores com essa idade e profissão");
+//         }
+        
+//         res.json({ resultado: result});
+//     });
+// });
+
+// // 4.b.vii
+// app.put('/users/:id',(req,res)=>{
+//     const id = req.params.id;
+//     const { Firstname, Lastname, Profession, Age } = req.body;
+
+//     const query = "UPDATE users SET "
+//         + "Firstname = ?,"
+//         + "Lastname = ?,"
+//         + "Profession = ?,"
+//         + "Age = ? "
+//         +"WHERE id = ?";
+
+//     connection.query(query,[Firstname, Lastname, Profession, Age, id],(err, result) =>{
+//         if (err) {  
+//             console.error('Erro:', err.message);
+//             return res.status(500).end("ocorreu um erro");
+//         }
+
+//         res.redirect('/users/' + id);
+//     });    
+// });
+
+// app.listen(port, ()=>{
 //     console.log("Server Started");
 // });
-// const express = require("express");
 
-// const app = express();
-// const port = 2000;
-
-
-// app.listen(port, () => {
-//   console.log("servidor");
-// });
-
-// 1.a.
 const express = require('express');
-// 1.b. - no terminal: 
-//          npm init -y
-//          npm install express
-// 1.c. - no terminal:
-//          npm install mysql2
-// no mysql cli / wrokbench / phpMyAdmin
-// 2. CREATE DATABASE Aula7
-// 2.a. CREATE TABLE `users` (
-//            `id` INT NOT NULL AUTO_INCREMENT,
-//            `Firstname` VARCHAR(100) NOT NULL,
-//            `Lastname` VARCHAR(100) NOT NULL,
-//            `Profession` VARCHAR(100) NOT NULL,
-//            `Age` INT NOT NULL,
-//            PRIMARY KEY (`id`)
-//        );
-// 2.b.
+
+// 3.a. Adicione as dependências para o swagger-autogen e o swagger-ui-express
+// autogen não é necessário, apenas para geração do output (ficheiro swagger.js)
+const swaggerUi = require('swagger-ui-express');
+
 const host = 'localhost';
 const username = 'root';
 const password = '';
 const database = 'Aula7';
-// 2.c. INSERT INTO `users` (`Firstname`, `Lastname`, `Profession`, `Age`) VALUES
-//          ('João', 'Silva', 'Engenheiro', 28),
-//          ('Maria', 'Santos', 'Médica', 35),
-//          ('Pedro', 'Oliveira', 'Professor', 42),
-//          ('Ana', 'Costa', 'Advogada', 31),
-//          ('Rui', 'Ferreira', 'Designer', 26);
-// 3.
+
 const app = express();
 const port = 3000;
 
-//8
-//8.a
-const swaggerUi = require('swagger-ui-express');
-
-// 8.b
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger_output.json')));
+// 3.b. Adicione o código necessário para utilizar o 
+// swagger-ui-express como middleware
 const swaggerDocs = require('./swagger_output.json');
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-
-// 4.
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
@@ -97,7 +266,7 @@ const connection = mysql.createConnection({
     password: password,
     database: database,
 });
-// 4.a
+
 connection.connect((err)=>{
     if (err) {
         console.error('Erro ao conectar ao MySQL:', err.message);
@@ -110,7 +279,6 @@ connection.connect((err)=>{
 app.use(express.json()); // middleware para fazer parse do body JSON
 
 // rotas
-// 4.b.i
 app.get('/users',(req,res)=>{
     const query = "SELECT * FROM users";
     connection.query(query,(err,rows)=>{
@@ -123,12 +291,13 @@ app.get('/users',(req,res)=>{
     });
 })
 
-// 4.b.ii
-app.post('/users',(req,res)=>{
-
-    console.log(req.body);
+app.post('/users',(req,res) => {
 
     const { Firstname, Lastname, Profession, Age } = req.body;
+
+    if( !Firstname || !Lastname || !Profession || !Age){
+        return res.status(400).end("Dados obrigatórios em falta");
+    }
     // const Firstname = req.body.Firstname;
     const query = "INSERT INTO users "
         + "(Firstname, Lastname, Profession, Age) "
@@ -143,7 +312,6 @@ app.post('/users',(req,res)=>{
     })
 });
 
-// 4.b.iii
 app.delete('/users',(req,res) => {
     const { id } = req.body;
 
@@ -158,7 +326,6 @@ app.delete('/users',(req,res) => {
     });
 });
 
-// 4.b.iv
 app.delete('/users/:id',(req,res) => {
     const id  = req.params.id;
 
@@ -173,7 +340,6 @@ app.delete('/users/:id',(req,res) => {
     });
 });
 
-// 4.b.v
 app.get('/users/:id',(req,res) => {
     const id = req.params.id;   //buscar id aos parametros
     const query = "SELECT * FROM users WHERE id = ?";   //criar query
@@ -193,7 +359,6 @@ app.get('/users/:id',(req,res) => {
     });
 });
 
-// 4.b.vi
 app.get('/users/:age/:profession',(req,res) => {
     const { age, profession } = req.params;
     const query = "SELECT * FROM users WHERE Age = ? AND Profession = ?";  
@@ -213,7 +378,6 @@ app.get('/users/:age/:profession',(req,res) => {
     });
 });
 
-// 4.b.vii
 app.put('/users/:id',(req,res)=>{
     const id = req.params.id;
     const { Firstname, Lastname, Profession, Age } = req.body;
