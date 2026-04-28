@@ -270,8 +270,9 @@
 
 const express = require('express');
 const Car = require('./models/Car');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 const sequelize = require('./config/database');
 const swaggerAutogen = require('swagger-autogen');
@@ -297,6 +298,7 @@ sequelize.sync({ force: true }) //force:true - obriga a eliminar e recriar a bas
         Car.bulkCreate(novosCarros);
     })
     .catch((error) => {
+      console.log(error)
         console.log("erro ao aceder à BD");
     });
 
@@ -304,6 +306,7 @@ const PORT = 3000;
 const app = express();
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //endpoints
 // 5.a. istar todos os carros existentes na tabela

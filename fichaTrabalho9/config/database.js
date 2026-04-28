@@ -9,7 +9,7 @@
 
 const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize("ficha9", "root", "root", {
+const sequelize = new Sequelize("ficha9", "root", "", {
   host: "localhost",
   dialect: "mysql",
 });
