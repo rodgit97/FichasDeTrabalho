@@ -40,28 +40,28 @@
 // }
 // tempoTrabalho("09:30", "17:45");
 
-function horarioTrabalho(entrada, saida) {
-    const inicioMin = 8*60;
+function horarioTrabalho(entrada, saida) {//  Função para calcular o tempo de trabalho com base na hora de entrada e saída, verificando se os horários estão dentro do período permitido e se a hora de entrada é anterior à hora de saída
+    const inicioMin = 8*60; // Definir o horário de início do trabalho em minutos (8 horas convertidas para minutos)
     const fimMin = 18*60;
 
-    let[entradaH, entradaM]= entrada.split(":").map(Number);
-    let[saidaH, saidaM]= saida.split(":").map(Number);
+    let[entradaH, entradaM]= entrada.split(":").map(Number); // Dividir a hora de entrada em horas e minutos usando split() para separar a string com base no caractere ":" e map(Number) para converter as partes resultantes em números, armazenando as horas na variável entradaH e os minutos na variável entradaM
+    let[saidaH, saidaM]= saida.split(":").map(Number);  
 
-    let entradaMin = entradaH*60 + entradaM;
+    let entradaMin = entradaH*60 + entradaM;// Converter a hora de entrada para minutos multiplicando as horas por 60 e somando os minutos, armazenando o resultado na variável entradaMin
     let saidaMin = saidaH*60 + saidaM;
 
-    if (entradaMin < inicioMin || saidaMin > fimMin) {
-        console.log("estão fora do horario");
-        return;
+    if (entradaMin < inicioMin || saidaMin > fimMin) { // Verificar se a hora de entrada é anterior ao horário de início permitido ou se a hora de saída é posterior ao horário de fim permitido. Se qualquer uma dessas condições for verdadeira, imprimir uma mensagem indicando que os horários estão fora do período permitido e retornar para encerrar a função
+        console.log("estão fora do horario"); 
+        return;// Se a hora de entrada for menor que o horário de início permitido ou se a hora de saída for maior que o horário de fim permitido, imprimir uma mensagem indicando que os horários estão fora do período permitido e retornar para encerrar a função
     }
 
-    if (entradaMin > saidaMin) {
+    if (entradaMin > saidaMin) { // Verificar se a hora de entrada é posterior à hora de saída. Se for, imprimir uma mensagem indicando que a hora de entrada deve ser anterior à hora de saída e retornar para encerrar a função
         console.log("tem de ser anterior a saida");
     return;
     }
-    let tempoMin = saidaMin - entradaMin;
-    horas = Math.floor(tempoMin/60);
-    min = tempoMin % 60;
+    let tempoMin = saidaMin - entradaMin; // Calcular o tempo total de trabalho em minutos subtraindo a hora de entrada (em minutos) da hora de saída (em minutos) e armazenando o resultado na variável tempoMin
+    horas = Math.floor(tempoMin/60); // 
+    min = tempoMin % 60; // Calcular o número de horas inteiras dividindo o tempo total em minutos por 60 usando Math.floor() para arredondar para baixo, e calcular os minutos restantes usando o operador módulo (%) para obter o resto da divisão do tempo total em minutos por 60, armazenando os resultados nas variáveis horas e min, respectivamente
 
     console.log(`o horario de trabalho é de ${horas} : ${min}`);
 }
