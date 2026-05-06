@@ -4,66 +4,66 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('fichatrabalho6:server');
-var http = require('http');
+var app = require('../app');//importação do módulo app, que é o arquivo principal da aplicação Express. O caminho '../app' indica que o arquivo app.js está localizado um nível acima do diretório atual (bin) onde este arquivo www está localizado.
+var debug = require('debug')('fichatrabalho6:server');//importação do módulo debug, que é uma biblioteca de depuração para Node.js. O argumento 'fichatrabalho6:server' é um namespace que será usado para identificar as mensagens de depuração relacionadas ao servidor da aplicação. Isso permite que você controle quais mensagens de depuração são exibidas com base no namespace, facilitando a identificação e solução de problemas durante o desenvolvimento da aplicação.
+var http = require('http');//importação do módulo http, que é um módulo nativo do Node.js para criar servidores HTTP. Ele fornece funcionalidades para lidar com requisições e respostas HTTP, permitindo que a aplicação Express seja executada como um servidor web e responda às requisições dos clientes.
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var port = normalizePort(process.env.PORT || '3000');//definição da porta em que o servidor irá escutar as requisições. A função normalizePort é chamada para garantir que a porta seja um número válido ou uma string, e o valor da porta é obtido a partir da variável de ambiente PORT ou, se não estiver definida, é definido como '3000' por padrão. O resultado é armazenado na variável port, que será usada posteriormente para configurar o servidor HTTP.
+app.set('port', port);//configuração da aplicação Express para usar a porta definida na variável port. A função app.set é utilizada para definir uma configuração personalizada na aplicação, e neste caso, a chave 'port' é associada ao valor da variável port. Isso permite que a aplicação Express acesse a porta configurada posteriormente, quando o servidor HTTP for criado e iniciado para escutar as requisições dos clientes.
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(app);//criação de um servidor HTTP usando o módulo http e a aplicação Express. A função http.createServer é chamada com a aplicação Express (app) como argumento, o que significa que o servidor HTTP será configurado para usar a aplicação Express para lidar com as requisições e respostas HTTP. O resultado é armazenado na variável server, que representa o servidor HTTP criado e será usado posteriormente para iniciar o servidor e escutar as requisições dos clientes.
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.listen(port);//início do servidor HTTP para escutar as requisições dos clientes na porta definida na variável port. A função server.listen é chamada com a variável port como argumento, o que significa que o servidor HTTP estará acessível através do endereço http://localhost:port ou http://<IP_ADDRESS>:port, onde port é o número da porta configurada. Isso permite que a aplicação Express responda às requisições dos clientes que chegam ao servidor HTTP.
+server.on('error', onError);// registro de um manipulador de eventos para o evento 'error' do servidor HTTP. A função onError é chamada sempre que ocorre um erro no servidor, permitindo que você lide com erros de forma adequada, como exibir mensagens de erro ou encerrar o processo em caso de erros críticos.
+server.on('listening', onListening);//registro de um manipulador de eventos para o evento 'listening' do servidor HTTP. A função onListening é chamada quando o servidor começa a escutar as requisições dos clientes, permitindo que você execute ações adicionais, como exibir uma mensagem de confirmação ou realizar outras tarefas relacionadas ao início do servidor.
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+function normalizePort(val) {//definição de uma função chamada normalizePort que é responsável por normalizar o valor da porta fornecido como argumento. A função recebe um parâmetro val, que pode ser uma string ou um número, e retorna um valor normalizado que pode ser um número, uma string ou false, dependendo do formato do valor de entrada.
+  var port = parseInt(val, 10);//conversão do valor de entrada val para um número inteiro usando a função parseInt. O segundo argumento 10 indica que a base numérica é decimal. O resultado é armazenado na variável port, que será usada para determinar o tipo de valor de porta a ser retornado pela função normalizePort.
 
-  if (isNaN(port)) {
+  if (isNaN(port)) {//verificação para determinar se a conversão do valor de entrada para um número inteiro resultou em NaN (Not a Number). Se port for NaN, isso significa que o valor de entrada não é um número válido, e a função retorna o valor original val, que pode ser uma string representando um nome de pipe ou outro formato de porta.
     // named pipe
-    return val;
+    return val;//se a conversão resultou em NaN, a função retorna o valor original val, que pode ser uma string representando um nome de pipe ou outro formato de porta.
   }
 
-  if (port >= 0) {
+  if (port >= 0) {//verificação para determinar se o valor de porta é um número inteiro não negativo. Se port for maior ou igual a 0, isso significa que é um número válido para representar uma porta, e a função retorna o valor de port como um número inteiro.
     // port number
     return port;
   }
 
-  return false;
+  return false;//se o valor de porta não é um número válido (menor que 0), a função retorna false, indicando que a porta não é válida para ser usada pelo servidor HTTP.
 }
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error) {//definição de uma função chamada onError que é responsável por lidar com erros que ocorrem no servidor HTTP. A função recebe um parâmetro error, que representa o objeto de erro gerado pelo servidor. A função verifica o tipo de erro e executa ações apropriadas, como exibir mensagens de erro ou encerrar o processo em caso de erros críticos.
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  var bind = typeof port === 'string'//verificação para determinar se a variável port é uma string. Se port for uma string, isso significa que é um nome de pipe ou outro formato de porta, e a variável bind é definida como 'Pipe ' seguido do valor de port. Caso contrário, se port for um número, a variável bind é definida como 'Port ' seguido do valor de port. Essa variável bind é usada posteriormente para exibir mensagens de erro específicas relacionadas ao tipo de porta que está sendo usada pelo servidor HTTP.
     ? 'Pipe ' + port
     : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
-  switch (error.code) {
+  switch (error.code) {//estrutura de controle switch para lidar com erros específicos relacionados à escuta do servidor HTTP. A função verifica o código de erro (error.code) e executa ações apropriadas com base no tipo de erro. Por exemplo, se o código de erro for 'EACCES', isso indica que a porta requer privilégios elevados, e a função exibe uma mensagem de erro e encerra o processo. Se o código de erro for 'EADDRINUSE', isso indica que a porta já está em uso, e a função exibe uma mensagem de erro e encerra o processo. Para outros tipos de erros, a função lança o erro para ser tratado em outro lugar.
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
@@ -81,10 +81,10 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+function onListening() {//definição de uma função chamada onListening que é responsável por lidar com o evento "listening" do servidor HTTP. A função é chamada quando o servidor começa a escutar as requisições dos clientes, e ela exibe uma mensagem de confirmação indicando que o servidor está ouvindo na porta ou pipe configurado. A função utiliza o módulo debug para exibir a mensagem de depuração, permitindo que você controle a exibição dessas mensagens com base no namespace configurado anteriormente.
+  var addr = server.address();//obtenção do endereço em que o servidor HTTP está escutando usando a função server.address(). O resultado é armazenado na variável addr, que pode ser um objeto contendo informações sobre o endereço, como a porta ou o nome do pipe, dependendo do tipo de porta configurada para o servidor.
+  var bind = typeof addr === 'string'// verificação para determinar se o valor de addr é uma string. Se addr for uma string, isso significa que é um nome de pipe ou outro formato de porta, e a variável bind é definida como 'pipe ' seguido do valor de addr. Caso contrário, se addr for um objeto, a variável bind é definida como 'port ' seguido do valor da propriedade port do objeto addr. Essa variável bind é usada posteriormente para exibir uma mensagem de confirmação indicando onde o servidor está escutando.
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug('Listening on ' + bind);//exibição de uma mensagem de depuração usando o módulo debug, indicando que o servidor HTTP está escutando na porta ou pipe configurado. A mensagem inclui o valor da variável bind, que foi definida anteriormente com base no tipo de porta configurada para o servidor.
 }
