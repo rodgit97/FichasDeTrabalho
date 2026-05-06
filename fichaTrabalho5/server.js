@@ -2,14 +2,14 @@
 const express = require('express'); //express
 const fs = require('fs');           //filesystem
 // criar a minha app
-const app = express();
+const app = express(); //criação de uma nova aplicação Express, que é um framework para construir aplicações web em Node.js. A função express() retorna um objeto que representa a aplicação, e esse objeto é armazenado na variável app. A partir desse ponto, você pode usar o objeto app para definir rotas, middleware e outras funcionalidades da sua aplicação web.
 // definir a porta
-const port = 3000;
-const file = "persons.json";
+const port = 3000;//definição da porta em que o servidor irá escutar as requisições. Neste caso, a porta é definida como 3000, o que significa que o servidor estará acessível através do endereço http://localhost:3000 ou http://
+const file = "persons.json";//definição do nome do arquivo JSON que será utilizado para armazenar os dados das pessoas. O arquivo "persons.json" será lido e escrito para persistir as informações das pessoas em formato JSON. Certifique-se de que esse arquivo exista no diretório do projeto ou que seja criado antes de executar o servidor, caso contrário, você pode receber um erro ao tentar ler ou escrever nesse arquivo.
 
 // guardar pessoas em memória (variável global)
-let pessoas = null;
-let lastId = 0;
+let pessoas = null;//declaração de uma variável global chamada pessoas, que inicialmente é definida como null. Essa variável será utilizada para armazenar os dados das pessoas em memória durante a execução do servidor. Posteriormente, essa variável será preenchida com os dados lidos do arquivo "persons.json" quando o servidor for iniciado, permitindo que as operações de leitura, criação, atualização e exclusão de pessoas sejam realizadas utilizando essa variável como fonte de dados temporária.
+let lastId = 0; //declaração de uma variável global chamada lastId, que é inicializada com o valor 0. Essa variável será utilizada para manter o controle do último ID atribuído a uma pessoa. Sempre que uma nova pessoa for criada, o valor de lastId será incrementado e atribuído como ID único para essa nova pessoa. Isso garante que cada pessoa tenha um identificador exclusivo, facilitando as operações de leitura, atualização e exclusão de pessoas com base em seus IDs.
 
 // função para ler o ficheiro
 function lerPessoas(){
