@@ -4,9 +4,9 @@
 
 // swaggerAutogen(outputFile, endpointsFiles, doc); // gera a documentacao Swagger automaticamente, lendo os endpoints definidos em app.js e salvando a documentacao no arquivo swagger_output.json.
 
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen')();// 
 
-const doc = {
+const doc = { // isto é 
   info: {
     title: 'API de Gestão Utilizadores',
     description: 'Documentação gerada automaticamente para a aula de Back-End'

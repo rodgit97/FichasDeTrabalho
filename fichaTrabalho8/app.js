@@ -255,22 +255,22 @@ const port = 3000;
 
 // 3.b. Adicione o código necessário para utilizar o 
 // swagger-ui-express como middleware
-const swaggerDocs = require('./swagger_output.json');
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const swaggerDocs = require('./swagger_output.json');// importar o arquivo de documentação gerado pelo swagger-autogen para configurar o swagger-ui-express, necessário para fornecer a documentação da API usando o swagger-ui-express com base no arquivo de documentação gerado pelo swagger-autogen
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));// configurar o swagger-ui-express para servir a documentação da API no endpoint '/docs' usando o arquivo de documentação importado, necessário para fornecer a documentação da API usando o swagger-ui-express com base no arquivo de documentação gerado pelo swagger-autogen
 
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const connection = mysql.createConnection({// criar uma conexão com o banco de dados MySQL usando as credenciais fornecidas para conectar ao banco de dados e realizar operações de banco de dados usando a conexão estabelecida
     host: host,
     user: username,
     password: password,
     database: database,
 });
 
-connection.connect((err)=>{
-    if (err) {
-        console.error('Erro ao conectar ao MySQL:', err.message);
-        return;
+connection.connect((err)=>{// conectar ao banco de dados MySQL e verificar se ocorreu algum erro durante a conexão para garantir que a conexão foi estabelecida com sucesso antes de realizar operações de banco de dados
+    if (err) {// se houver um erro, exibir uma mensagem de erro no console e encerrar a função para evitar que o restante do código seja executado sem uma conexão válida
+        console.error('Erro ao conectar ao MySQL:', err.message);// exibir a mensagem de erro no console para ajudar na depuração e identificação do problema de conexão
+        return;// encerrar a função para evitar que o restante do código seja executado sem uma conexão válida, garantindo que as operações de banco de dados não sejam realizadas sem uma conexão estabelecida
     }
     console.log('connection established to MySql');
 });
@@ -279,21 +279,20 @@ connection.connect((err)=>{
 app.use(express.json()); // middleware para fazer parse do body JSON
 
 // rotas
-app.get('/users',(req,res)=>{
+app.get('/users',(req,res)=>{// definir uma rota GET para o endpoint '/users' que irá buscar todos os usuários do banco de dados MySQL usando a conexão estabelecida e enviar os registros obtidos como resposta para o cliente
     const query = "SELECT * FROM users";
-    connection.query(query,(err,rows)=>{
+    connection.query(query,(err,rows)=>{ 
         if (err) {
             console.error('Erro:', err.message);
             return res.status(500).end("ocorreu um erro");
         }
-        res.send(rows);
+        res.send(rows);// 
 
     });
 })
 
-app.post('/users',(req,res) => {
-
-    const { Firstname, Lastname, Profession, Age } = req.body;
+app.post('/users',(req,res) => { 
+    const { Firstname, Lastname, Profession, Age } = req.body; // definir
 
     if( !Firstname || !Lastname || !Profession || !Age){
         return res.status(400).end("Dados obrigatórios em falta");
@@ -312,7 +311,7 @@ app.post('/users',(req,res) => {
     })
 });
 
-app.delete('/users',(req,res) => {
+app.delete('/users',(req,res) => {// 
     const { id } = req.body;
 
     const query = "DELETE FROM users WHERE id = ?";
@@ -359,7 +358,7 @@ app.get('/users/:id',(req,res) => {
     });
 });
 
-app.get('/users/:age/:profession',(req,res) => {
+app.get('/users/:age/:profession',(req,res) => {//
     const { age, profession } = req.params;
     const query = "SELECT * FROM users WHERE Age = ? AND Profession = ?";  
 
@@ -378,7 +377,7 @@ app.get('/users/:age/:profession',(req,res) => {
     });
 });
 
-app.put('/users/:id',(req,res)=>{
+app.put('/users/:id',(req,res)=>{//
     const id = req.params.id;
     const { Firstname, Lastname, Profession, Age } = req.body;
 
