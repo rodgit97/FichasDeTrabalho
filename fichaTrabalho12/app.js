@@ -1,8 +1,8 @@
 const fs = require('fs');
-const zlib = require('zlib');
-const filename = 'bigtext.txt';
+const zlib = require('zlib');// const filename = 'bigtext.txt';// leitura síncrona
+const filename = 'bigtext.txt';// leitura síncrona
 
-function readBigText()
+function readBigText()// leitura síncrona
 {
     const data = fs.readFileSync(filename, 'utf-8');
     console.log(data);
@@ -37,12 +37,13 @@ async function readBigTextStream2(){
     }
 }
 
-async function readBigTextStream3(){
-    const stream = fs.createReadStream(filename,'utf-8');
-    let data = "";
+// usando eventos
+async function readBigTextStream3(){// usando eventos
+    const stream = fs.createReadStream(filename,'utf-8');// usando eventos
+    let data = "";// usando eventos
 
-    stream.on('data', chunk =>{
-        data+=chunk;
+    stream.on('data', chunk =>{// usando eventos
+        data+=chunk;//utilizando a variável para guardar o conteúdo do ficheiro, mas usando eventos
     })
 
     stream.on('end',() => {

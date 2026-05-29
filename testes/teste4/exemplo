@@ -1,0 +1,8 @@
+npm i nodemon               
+npm install -g nodemon      
+npm i sequelize             
+npm install --save sequelize
+npm install --save mysql2
+npm install --save sequelize-cli
+npx sequelize-cli init
+npx sequelize-cli db:migrate
